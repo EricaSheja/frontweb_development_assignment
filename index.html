@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Life Planner</title>
+  <meta name="description" content="A campus planner for tracking assignments, study sessions, and club events.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div id="global-status" class="sr-only" role="status" aria-live="polite"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="brand">
+        <span class="brand-mark" aria-hidden="true">&#9670;</span>
+        Campus Life Planner
+      </p>
+      <nav class="primary-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#about">About</a></li>
+          <li><a class="nav-link" aria-current="page" href="#dashboard">Dashboard</a></li>
+          <li><a class="nav-link" href="#records">Records</a></li>
+          <li><a class="nav-link" href="#add-edit">Add task</a></li>
+          <li><a class="nav-link" href="#settings">Settings</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+
+    <!-- ABOUT  -->
+    <section id="about" tabindex="-1" hidden>
+      <div class="section-inner narrow">
+        <h1>About this planner</h1>
+        <p>
+          Campus Life Planner helps you track assignments, study sessions, and club events
+          in one place &mdash; due dates, durations, and tags, all searchable with live regex
+          filtering. Everything is saved to your browser's local storage, so your planner is
+          ready the next time you open this page.
+        </p>
+        <h2>Built by</h2>
+        <p>
+          Sheja Rurangwa Erica<br>
+          <a href="https://github.com/EricaSheja" rel="noopener">GitHub profile</a> &middot;
+          <a href="mailto:e.sheja@alustudent.com">e.sheja@alustudent.com</a>
+        </p>
+        <h2>How it works</h2>
+        <ul>
+          <li>Add a task with a title, due date, duration, and tag.</li>
+          <li>Search records using plain text or a regular expression.</li>
+          <li>Sort by due date, title, or duration.</li>
+          <li>Track your weekly time cap on the Dashboard.</li>
+          <li>Export your data as JSON, or import a JSON file to restore it.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" tabindex="-1">
+      <div class="section-inner">
+        <h1>Dashboard</h1>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <p class="stat-label">Total tasks</p>
+            <p class="stat-value" id="stat-total">0</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Total time planned</p>
+            <p class="stat-value mono" id="stat-sum">0 min</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Top tag</p>
+            <p class="stat-value" id="stat-top-tag">&mdash;</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Last 7 days &mdash; tasks due</h2>
+          <div class="trend-chart" id="trend-chart" aria-hidden="false"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Weekly time cap</h2>
+          <p class="field-hint">
+            Set a soft limit on planned minutes per week. Adjust it any time in
+            <a href="#settings">Settings</a>.
+          </p>
+          <div class="cap-bar-track" aria-hidden="true">
+            <div class="cap-bar-fill" id="cap-bar-fill"></div>
+          </div>
+          <p id="cap-live-region" role="status" aria-live="polite" class="cap-live-text"></p>
+          <input type="hidden" id="cap-input">
+        </div>
+      </div>
+    </section>
+
+    <!-- RECORDS -->
+    <section id="records" tabindex="-1" hidden>
+      <div class="section-inner">
+        <h1>Records</h1>
+
+        <div class="search-bar">
+          <label for="search-input">Search (plain text or regex)</label>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="e.g. exam, ^@tag:Study, \b\d{2}:\d{2}\b"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <div class="search-row-bottom">
+            <label class="checkbox-label">
+              <input type="checkbox" id="search-case-toggle" checked>
+              Case-insensitive
+            </label>
+            <p id="search-error" class="field-error" role="alert"></p>
+          </div>
+          <div class="preset-chips" id="search-presets" aria-label="Example search patterns"></div>
+        </div>
+
+        <p id="results-status" class="results-status" role="status" aria-live="polite"></p>
+
+        <div class="sort-controls" role="group" aria-label="Sort records">
+          <span class="sort-label">Sort by:</span>
+          <button type="button" class="btn btn-sort" data-sort-field="dueDate" aria-pressed="false">
+            Due date <span class="sort-arrow" aria-hidden="true">&#8597;</span>
+          </button>
+          <button type="button" class="btn btn-sort" data-sort-field="title" aria-pressed="false">
+            Title <span class="sort-arrow" aria-hidden="true">&#8597;</span>
+          </button>
+          <button type="button" class="btn btn-sort" data-sort-field="duration" aria-pressed="false">
+            Duration <span class="sort-arrow" aria-hidden="true">&#8597;</span>
+          </button>
+        </div>
+
+        <p id="empty-state" class="empty-state" hidden>
+          No tasks match yet. <a href="#add-edit">Add your first task</a> or try a different search.
+        </p>
+
+        <!-- Table: shown on wider viewports -->
+        <table class="records-table">
+          <caption class="sr-only">Your campus tasks and events</caption>
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Due date</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Tag</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="records-tbody"></tbody>
+        </table>
+
+        <!-- Cards: shown on narrow viewports -->
+        <ul class="records-cards" id="records-cards" aria-label="Your campus tasks and events"></ul>
+      </div>
+    </section>
+
+    <!-- ADD / EDIT -->
+    <section id="add-edit" tabindex="-1" hidden>
+      <div class="section-inner narrow">
+        <h1 id="form-heading">Add a task</h1>
+
+        <form id="record-form" novalidate>
+          <input type="hidden" id="field-id">
+
+          <div class="form-field">
+            <label for="field-title">Title</label>
+            <input
+              type="text"
+              id="field-title"
+              name="title"
+              required
+              aria-describedby="error-title"
+              aria-invalid="false"
+              placeholder="e.g. Submit chemistry lab report"
+            >
+            <p id="error-title" class="field-error" role="alert"></p>
+          </div>
+
+          <div class="form-field">
+            <label for="field-duedate">Due date</label>
+            <input
+              type="date"
+              id="field-duedate"
+              name="dueDate"
+              required
+              aria-describedby="error-duedate"
+              aria-invalid="false"
+            >
+            <p id="error-duedate" class="field-error" role="alert"></p>
+          </div>
+
+          <div class="form-field">
+            <label for="field-duration">Duration (minutes)</label>
+            <input
+              type="number"
+              id="field-duration"
+              name="duration"
+              required
+              min="1"
+              step="0.5"
+              aria-describedby="error-duration"
+              aria-invalid="false"
+              placeholder="e.g. 90"
+            >
+            <p id="error-duration" class="field-error" role="alert"></p>
+          </div>
+
+          <div class="form-field">
+            <label for="field-tag">Tag</label>
+            <input
+              type="text"
+              id="field-tag"
+              name="tag"
+              required
+              aria-describedby="error-tag"
+              aria-invalid="false"
+              placeholder="e.g. Study Group"
+            >
+            <p id="error-tag" class="field-error" role="alert"></p>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="form-submit-btn">Add task</button>
+            <button type="button" class="btn btn-ghost" id="form-cancel-edit-btn" hidden>Cancel edit</button>
+          </div>
+
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settings" tabindex="-1" hidden>
+      <div class="section-inner narrow">
+        <h1>Settings</h1>
+
+        <div class="form-field">
+          <label for="settings-unit">Duration display unit</label>
+          <select id="settings-unit">
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="settings-theme">Theme</label>
+          <select id="settings-theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="settings-cap">Weekly time cap (minutes)</label>
+          <input type="number" id="settings-cap" min="1" step="1">
+        </div>
+
+        <div class="panel">
+          <h2>Import / Export</h2>
+          <p class="field-hint">Export your records as a JSON file, or import a previously exported file.</p>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="export-btn">Export JSON</button>
+            <label class="btn btn-ghost file-label" for="import-input">
+              Import JSON
+              <input type="file" id="import-input" accept="application/json" class="sr-only">
+            </label>
+          </div>
+          <p id="import-status" class="form-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-inner">
+      <p>Campus Life Planner Built with CSS, HTML and Javascript.</p>
+      <p>
+        <a href="https://github.com/EricaSheja/campus-life-planner" rel="noopener">GitHub</a> 
+        <a href="mailto:e.sheja@alustudent.com">e.sheja@alustudent.com</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
