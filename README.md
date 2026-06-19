@@ -56,6 +56,22 @@ I'm going to explain the REGEX pattern using a #PurposePatternWhere, where i wil
 
 If you type something invalid into the search box (like an unfinished regex,the code catches the error with try/catch in getFilteredRecords() and shows a message instead of crashing the page.
 
+
+Keyboard map
+
+Everything in the app can be reached and operated without a mouse. This was verified with an actual keyboard-only test pass
+
+KeyWhat it does:
+Tab: Moves forward through every interactive element, in this order on a fresh page load: skip link - nav links (About, Dashboard, Records, Add task, Settings) - whatever's interactive in the visible section - footer links.
+Shift + TabMoves: moves backward through the same order.
+Enter: Activates the focused link or the default action of a focused button (e.g. following a nav link switches sections and moves focus to the new section's heading; submitting the Add/Edit form).
+Space: Activates a focused button, most notably the three sort buttons on Records (Due date / Title / Duration), which toggle aria-pressed and re-sort the list, the same as clicking them 
+Escape: Not bound to anything custom. Browser default behavior only (e.g. closing a native date picker), so it never interferes with the page.
+
+
+Form fields are reachable in the same top-to-bottom order they're shown in, and an invalid field receives focus automatically after a failed submit, so you don't have to hunt for which field had the error.
+The Import JSON control is a styled <label> wrapping a hidden file input, but it's still fully keyboard-operable: tabbing to it and pressing Enter or Space opens the native file picker, same as clicking it.
+
 Accessibility notes
 
 A "Skip to main content" link appears when you press Tab, letting keyboard users jump past the navigation.
