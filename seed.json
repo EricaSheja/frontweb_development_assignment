@@ -1,0 +1,110 @@
+[
+  {
+    "id": "rec_0001",
+    "title": "Submit chemistry lab report",
+    "dueDate": "2026-06-19",
+    "duration": 90,
+    "tag": "Coursework",
+    "createdAt": "2026-06-10T08:00:00.000Z",
+    "updatedAt": "2026-06-10T08:00:00.000Z"
+  },
+  {
+    "id": "rec_0002",
+    "title": "Study group 14:00 review session",
+    "dueDate": "2026-06-20",
+    "duration": 120,
+    "tag": "Study Group",
+    "createdAt": "2026-06-10T08:05:00.000Z",
+    "updatedAt": "2026-06-10T08:05:00.000Z"
+  },
+  {
+    "id": "rec_0003",
+    "title": "Entrepreneurship exam prep",
+    "dueDate": "2026-06-22",
+    "duration": 180,
+    "tag": "Exam",
+    "createdAt": "2026-06-11T09:00:00.000Z",
+    "updatedAt": "2026-06-11T09:00:00.000Z"
+  },
+  {
+    "id": "rec_0004",
+    "title": "Yoga studio launch meeting",
+    "dueDate": "2026-06-18",
+    "duration": 45,
+    "tag": "Business",
+    "createdAt": "2026-06-09T07:30:00.000Z",
+    "updatedAt": "2026-06-09T07:30:00.000Z"
+  },
+  {
+    "id": "rec_0005",
+    "title": "Chicken farm site visit",
+    "dueDate": "2026-06-21",
+    "duration": 240,
+    "tag": "Farm",
+    "createdAt": "2026-06-12T06:00:00.000Z",
+    "updatedAt": "2026-06-12T06:00:00.000Z"
+  },
+  {
+    "id": "rec_0006",
+    "title": "TruRwanda influencer call 09:30",
+    "dueDate": "2026-06-23",
+    "duration": 30,
+    "tag": "Business",
+    "createdAt": "2026-06-12T10:00:00.000Z",
+    "updatedAt": "2026-06-12T10:00:00.000Z"
+  },
+  {
+    "id": "rec_0007",
+    "title": "Goal Diggers book club meetup",
+    "dueDate": "2026-06-25",
+    "duration": 90,
+    "tag": "Book Club",
+    "createdAt": "2026-06-13T12:00:00.000Z",
+    "updatedAt": "2026-06-13T12:00:00.000Z"
+  },
+  {
+    "id": "rec_0008",
+    "title": "Edit vlog footage from Akagera",
+    "dueDate": "2026-06-17",
+    "duration": 150,
+    "tag": "Content",
+    "createdAt": "2026-06-08T15:00:00.000Z",
+    "updatedAt": "2026-06-08T15:00:00.000Z"
+  },
+  {
+    "id": "rec_0009",
+    "title": "Quick quick check-in with Stella",
+    "dueDate": "2026-06-19",
+    "duration": 15,
+    "tag": "Work",
+    "createdAt": "2026-06-14T11:00:00.000Z",
+    "updatedAt": "2026-06-14T11:00:00.000Z"
+  },
+  {
+    "id": "rec_0010",
+    "title": "Draft ARCOS proposal review",
+    "dueDate": "2026-06-30",
+    "duration": 60,
+    "tag": "Work",
+    "createdAt": "2026-06-14T13:00:00.000Z",
+    "updatedAt": "2026-06-14T13:00:00.000Z"
+  },
+  {
+    "id": "rec_0011",
+    "title": "Read one chapter before bed",
+    "dueDate": "2026-06-18",
+    "duration": 0.5,
+    "tag": "Personal",
+    "createdAt": "2026-06-15T20:00:00.000Z",
+    "updatedAt": "2026-06-15T20:00:00.000Z"
+  },
+  {
+    "id": "rec_0012",
+    "title": "Full day systems thinking workshop",
+    "dueDate": "2026-12-31",
+    "duration": 480,
+    "tag": "Coursework",
+    "createdAt": "2026-06-15T08:00:00.000Z",
+    "updatedAt": "2026-06-15T08:00:00.000Z"
+  }
+]

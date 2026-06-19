@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Life Planner — Tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'JetBrains Mono', monospace; background: #14172B; color: #F1EFE8; padding: 2rem; line-height: 1.6; }
+    h1 { color: #E0572B; }
+    .pass { color: #6FCF97; }
+    .fail { color: #FF6B6B; font-weight: bold; }
+    .summary { margin-top: 2rem; padding: 1rem; border: 1px solid #343A63; border-radius: 8px; }
+    ul { list-style: none; padding-left: 0; }
+    li { padding: 0.25rem 0; border-bottom: 1px solid #232748; }
+  </style>
+</head>
+<body>
+  <h1>Campus Life Planner — Test Suite</h1>
+  <p>This page loads the real validators.js and storage.js files and checks
+     that their functions give back the right answers.</p>
+  <ul id="results"></ul>
+  <div class="summary" id="summary"></div>
+
+  <!-- Load the real app files we want to test. -->
+  <script src="scripts/validators.js"></script>
+  <script src="scripts/storage.js"></script>
+
+  <script>
+    var results = [];
+    function assert(name, condition) {
+      results.push({ name: name, pass: !!condition });
+    }
+
+    // ---- Title checks (using the real validateTitle function) ----
+    assert("validateTitle rejects empty string", !validateTitle("").valid);
+    assert("validateTitle rejects leading space", !validateTitle(" Submit essay").valid);
+    assert("validateTitle rejects trailing space", !validateTitle("Submit essay ").valid);
+    assert("validateTitle accepts a normal title", validateTitle("Submit essay").valid);
+    assert("validateTitle rejects a repeated word", !validateTitle("Quick quick check-in").valid);
+
+    // ---- Duration checks (using the real validateDuration function) ----
+    assert("validateDuration rejects empty", !validateDuration("").valid);
+    assert("validateDuration rejects letters", !validateDuration("abc").valid);
+    assert("validateDuration accepts a whole number", validateDuration("90").valid);
+    assert("validateDuration accepts 2 decimal places", validateDuration("45.50").valid);
+    assert("validateDuration rejects 3+ decimal places", !validateDuration("45.555").valid);
+    assert("validateDuration rejects zero", !validateDuration("0").valid);
+    assert("validateDuration rejects over 1440 minutes", !validateDuration("2000").valid);
+
+    // ---- Date checks (using the real validateDate function) ----
+    assert("validateDate rejects wrong format", !validateDate("19-06-2026").valid);
+    assert("validateDate accepts correct format", validateDate("2026-06-19").valid);
+    assert("validateDate rejects month 13", !validateDate("2026-13-01").valid);
+    assert("validateDate rejects Feb 30 (not a real date)", !validateDate("2026-02-30").valid);
+    assert("validateDate accepts a real leap day", validateDate("2028-02-29").valid);
+
+    // ---- Tag checks (using the real validateTag function) ----
+    assert("validateTag accepts a simple word", validateTag("Coursework").valid);
+    assert("validateTag accepts a two-word tag", validateTag("Study Group").valid);
+    assert("validateTag rejects digits", !validateTag("Tag1").valid);
+    assert("validateTag rejects symbols", !validateTag("Work!").valid);
+
+    // ---- Import-data checks (using the real validateRecordsShape function) ----
+    assert("validateRecordsShape rejects something that isn't a list", !validateRecordsShape({}).valid);
+    assert("validateRecordsShape rejects a record missing fields", !validateRecordsShape([{ id: "x" }]).valid);
+    assert("validateRecordsShape accepts a well-formed record", validateRecordsShape([
+      { id: "rec_1", title: "Test", dueDate: "2026-06-19", duration: 30, tag: "Work" }
+    ]).valid);
+    assert("validateRecordsShape rejects duplicate ids", !validateRecordsShape([
+      { id: "rec_1", title: "A", dueDate: "2026-06-19", duration: 30, tag: "Work" },
+      { id: "rec_1", title: "B", dueDate: "2026-06-20", duration: 30, tag: "Work" }
+    ]).valid);
+    assert("validateRecordsShape rejects a badly formatted date", !validateRecordsShape([
+      { id: "rec_1", title: "A", dueDate: "19-06-2026", duration: 30, tag: "Work" }
+    ]).valid);
+
+    // ---- Render the results onto the page ----
+    var list = document.getElementById("results");
+    var passCount = 0;
+
+    for (var i = 0; i < results.length; i++) {
+      var li = document.createElement("li");
+      li.className = results[i].pass ? "pass" : "fail";
+      li.textContent = (results[i].pass ? "PASS" : "FAIL") + " — " + results[i].name;
+      list.appendChild(li);
+      if (results[i].pass) {
+        passCount = passCount + 1;
+      }
+    }
+
+    var summary = document.getElementById("summary");
+    summary.textContent = passCount + " / " + results.length + " tests passed.";
+    summary.style.color = (passCount === results.length) ? "#6FCF97" : "#FF6B6B";
+  </script>
+</body>
+</html>
