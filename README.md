@@ -114,5 +114,5 @@ Ideas that can be implemented to make this better (not done yet):
 
 remembering the last search you typed between visits, and letting you export to CSV instead of just JSON.
 
-Here is a link to my DEMO video 
-https://drive.google.com/drive/folders/1R9TBekpGKTEByyQCw2eYIG3wJ_R5NkH8?usp=sharing
+Here is the link to my DEMO video 
+https://drive.google.com/file/d/1IOX1kTHJ6Axy-LI5pnViOA9-hjwQBdw2/view?usp=sharing
