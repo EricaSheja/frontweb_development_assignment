@@ -113,3 +113,6 @@ Double-click index.html, or just put it in a web browser or go live in your VS c
 Ideas that can be implemented to make this better (not done yet):
 
 remembering the last search you typed between visits, and letting you export to CSV instead of just JSON.
+
+Here is a link to my DEMO video 
+https://drive.google.com/drive/folders/1R9TBekpGKTEByyQCw2eYIG3wJ_R5NkH8?usp=sharing
